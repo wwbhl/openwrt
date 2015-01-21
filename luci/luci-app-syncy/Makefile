@@ -17,7 +17,25 @@ PKGARCH:=all
 
 PKG_MAINTAINER:=wwbhl <8489216@qq.com>
 
-include ../../luci.mk
+include $(INCLUDE_DIR)/package.mk
+
+define Package/openwrt-dist-luci/Default
+        SECTION:=luci
+        CATEGORY:=LuCI
+        SUBMENU:=3. Applications
+        TITLE:=$(1) LuCI interface
+        PKGARCH:=all
+endef
+
+define Package/openwrt-dist-luci/install
+        $(INSTALL_DIR) $(1)/usr/lib/lua/luci/controller
+        $(INSTALL_DATA) ./files/luci/controller/$(2).lua $(1)/usr/lib/lua/luci/controller/$(2).lua
+        $(INSTALL_DIR) $(1)/usr/lib/lua/luci/model/cbi
+        $(INSTALL_DATA) ./files/luci/model/cbi/$(2).lua $(1)/usr/lib/lua/luci/model/cbi/$(2).lua
+endef
+
+
+$(eval $(call BuildPackage,luci-app-syncy))
 
 # call BuildPackage - OpenWrt buildroot signature
 
