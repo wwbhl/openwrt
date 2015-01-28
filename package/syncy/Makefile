@@ -21,7 +21,7 @@ define Package/syncy
 endef
 
 define Package/syncy/description
-  LuCI Support for syncy
+LuCI Support for syncy
 endef
 
 define Package/syncy/postinst
