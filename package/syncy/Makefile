@@ -10,18 +10,26 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/syncy/Default
+define Package/syncy
   SECTION:=net
   CATEGORY:=Network
   SUBMENU:=File Transfer
+  DEPENDS:=+python +python-curl +libcurl +libc +kmod-nls-utf8 +libopenssl
   TITLE:=syncy
   PKGARCH:=all
 endef
 
-Package/syncy = $(call Package/syncy/Default)
 
 define Package/syncy/description
 LuCI Support for syncy
+endef
+define Build/Prepare
+endef
+
+define Build/Configure
+endef
+
+define Build/Compile
 endef
 
 define Package/syncy/conffiles
