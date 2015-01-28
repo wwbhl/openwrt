@@ -8,7 +8,7 @@ PKG_MAINTAINER:=wwbhl <8489216@qq.com>
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/syncy/Default
+define Package/syncy
   SECTION:=net
   CATEGORY:=Network
   SUBMENU:=File Transfer
