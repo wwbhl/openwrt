@@ -1,7 +1,5 @@
 include $(TOPDIR)/rules.mk
 
-LUCI_TITLE:=LuCI Support for syncy
-LUCI_DEPENDS:=+python +python-curl +libcurl +libc +kmod-nls-utf8 +libopenssl
 
 PKG_NAME:=syncy
 PKG_VERSION:=2.1.1
