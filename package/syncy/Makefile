@@ -13,7 +13,7 @@ define Package/syncy/Default
   CATEGORY:=Network
   SUBMENU:=File Transfer
   TITLE:=syncy
-  URL:=http://syncyhome.duapp.com
+  PKGARCH:=all
 endef
 
 define Package/syncy/description
