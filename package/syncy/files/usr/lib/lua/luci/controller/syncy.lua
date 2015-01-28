@@ -26,6 +26,10 @@ function index()
 	end
 
 	local page
-	page = entry({"admin", "services", "syncy"}, cbi("syncy"), _("百度云同步"))
+	page = node("admin", "wwbhl")
+	page.target = firstchild()
+	page.title = _("wwbhl")
+	page.order  = 65
+	page = entry({"admin", "wwbhl", "syncy"}, cbi("syncy"), _("百度云同步"))
 	page.dependent = true
 end
