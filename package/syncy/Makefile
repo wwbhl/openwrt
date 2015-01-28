@@ -24,6 +24,10 @@ define Package/syncy/description
 LuCI Support for syncy
 endef
 
+define Package/syncy/conffiles
+/etc/config/syncy
+endef
+
 define Package/syncy/postinst
 #!/bin/sh
 [ -f /etc/config/syncy.bak.syy ] && mv /etc/config/syncy.bak.syy /etc/config/syncy
