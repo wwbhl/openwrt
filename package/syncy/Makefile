@@ -20,6 +20,9 @@ define Package/syncy
   PKGARCH:=all
 endef
 
+define Package/syncy/description
+LuCI Support for syncy
+endef
 
 define Package/syncy/conffiles
 /etc/config/syncy
