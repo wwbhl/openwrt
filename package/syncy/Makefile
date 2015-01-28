@@ -6,6 +6,10 @@ PKG_VERSION:=2.1.1
 PKG_RELEASE:=1
 PKG_MAINTAINER:=wwbhl <8489216@qq.com>
 
+PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
+PKG_UNPACK=mkdir -p $(PKG_BUILD_DIR); $(CP) ./files/* $(PKG_BUILD_DIR)/
+
+
 include $(INCLUDE_DIR)/package.mk
 
 define Package/syncy
