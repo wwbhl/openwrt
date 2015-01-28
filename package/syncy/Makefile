@@ -18,6 +18,8 @@ define Package/syncy/Default
   PKGARCH:=all
 endef
 
+Package/syncy = $(call Package/syncy/Default)
+
 define Package/syncy/description
 LuCI Support for syncy
 endef
