@@ -24,6 +24,7 @@ include $(INCLUDE_DIR)/package.mk
 define Package/syncy/Default
   SECTION:=net
   CATEGORY:=Network
+  SUBMENU:=File Transfer
   TITLE:=syncy
 	URL:=http://syncyhome.duapp.com
 endef
