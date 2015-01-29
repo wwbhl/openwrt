@@ -29,41 +29,14 @@ define Package/luci/install/template
 	$(CP) -a $(PKG_BUILD_DIR)/$(2)/ipkg/* $(1)/CONTROL/ 2>/dev/null || true
 endef
 
-### Protocols ###
-define protocol
-  define Package/luci-proto-$(1)
-    SECTION:=luci
-    CATEGORY:=RA-MOD
-    TITLE:=LuCI - RA-MOD
-    URL:=https://github.com/ravageralpha/my_openwrt_mod/
-    MAINTAINER:=RA <ravageralpha@gmail.com>
-    SUBMENU:=2. LuCI Protocols
-    TITLE:=$(if $(2),$(2),LuCI $(1) protocol support)
-    DEPENDS:=$(3)
-  endef
-
-  define Package/luci-proto-$(1)/install
-	$(call Package/luci/install/template,$$(1),protocols/$(1))
-  endef
-
-  ifneq ($(CONFIG_PACKAGE_luci-proto-$(1)),)
-    LUCI_SELECTED_MODULES+=protocols/$(1)
-  endif
-
-  LUCI_BUILD_PACKAGES += luci-proto-$(1)
-endef
-
-$(eval $(call protocol,openconnect-ra,Support for OpenConnect VPN,+openconnect))
-$(eval $(call protocol,shadowvpn,Support for ShadowVPN,+ShadowVPN))
-
 ### Applications ###
 define application
   define Package/luci-app-$(1)
     SECTION:=luci
-    CATEGORY:=RA-MOD
-    TITLE:=LuCI - RA-MOD
+    CATEGORY:=wwbhl
+    TITLE:=LuCI - wwbhl
     URL:=https://github.com/ravageralpha/my_openwrt_mod/
-    MAINTAINER:=RA <ravageralpha@gmail.com>
+    MAINTAINER:=wwbhl <8489216@qq.com>
     SUBMENU:=1. LuCI Applications
     TITLE:=$(if $(2),$(2),LuCI $(1) application)
 	DEPENDS:=$(3)
@@ -86,27 +59,6 @@ $(eval $(call application,aria2,LuCI Support for aria2,\
 	+PACKAGE_luci-app-aria2:wget \
 	+PACKAGE_luci-app-aria2:openssl-util))
 
-$(eval $(call application,shadowsocks,LuCI Support for shadowsocks,\
-	+PACKAGE_luci-app-shadowsocks:shadowsocks-libev \
-	+PACKAGE_luci-app-shadowsocks:kmod-ipt-nat \
-	+PACKAGE_luci-app-shadowsocks:kmod-ipt-nat-extra \
-	+PACKAGE_luci-app-shadowsocks:kmod-ipt-ipset \
-	+PACKAGE_luci-app-shadowsocks:ipset \
-	+PACKAGE_luci-app-shadowsocks:resolveip))
-
-$(eval $(call application,redsocks2,LuCI Support for redsocks2,\
-	+PACKAGE_luci-app-redsocks2:redsocks2 \
-	+PACKAGE_luci-app-redsocks2:kmod-ipt-nat \
-	+PACKAGE_luci-app-redsocks2:kmod-ipt-nat-extra \
-	+PACKAGE_luci-app-redsocks2:kmod-ipt-ipset \
-	+PACKAGE_luci-app-redsocks2:ipset \
-	+PACKAGE_luci-app-shadowsocks:resolveip))
-
-$(eval $(call application,vsftpd,LuCI Support for vsftpd,\
-	+PACKAGE_luci-app-vsftpd:vsftpd))
-
-$(eval $(call application,chinadns,LuCI Support for ChinaDNS,\
-	+PACKAGE_luci-app-chinadns:ChinaDNS))
 
 ### Compile ###
 PKG_CONFIG_DEPENDS=$(patsubst %,CONFIG_PACKAGE_%,$(LUCI_BUILD_PACKAGES))
