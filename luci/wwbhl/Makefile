@@ -59,8 +59,7 @@ define Package/luci-app-aria2/conffiles
 endef
 
 $(eval $(call application,aria2,LuCI Support for Aria2,\
-	+PACKAGE_luci-app-aria2:aria2 \
-	+PACKAGE_luci-app-aria2:yaaw))
+	+PACKAGE_luci-app-aria2:aria2))
 
 
 ### Compile ###
