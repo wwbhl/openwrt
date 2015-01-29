@@ -6,7 +6,7 @@ PKG_RELEASE=$(PKG_SOURCE_VERSION)
 
 PKG_SOURCE_URL:=https://github.com/clowwindy/ChinaDNS/releases/download/$(PKG_VERSION)
 PKG_SOURCE:=chinadns-$(PKG_VERSION).tar.gz
-PKG_MAINTAINER:=clowwindy <clowwindy42@gmail.com>
+PKG_MAINTAINER:=wwbhl <8489216@qq.com>
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(BUILD_VARIANT)/chinadns-$(PKG_VERSION)
 
@@ -20,9 +20,9 @@ include $(INCLUDE_DIR)/package.mk
 define Package/ChinaDNS/Default
   SECTION:=net
   CATEGORY:=wwbhl
-  SUBMENU:=2. NetWork Support
+  SUBMENU:=2. Network Support
   TITLE:=ChinaDNS
-	URL:=https://github.com/clowwindy/ChinaDNS
+	URL:=https://github.com/wwbhl/openwrt
 endef
 
 define Package/ChinaDNS
