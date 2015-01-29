@@ -30,7 +30,8 @@ include $(INCLUDE_DIR)/package.mk
 
 define Package/shadowsocks-libev/Default
 	SECTION:=net
-	CATEGORY:=Network
+	CATEGORY:=wwbhl
+	SUBMENU:=2. Network Support
 	TITLE:=Lightweight Secured Socks5 Proxy $(2)
 	URL:=https://github.com/madeye/shadowsocks-libev
 	VARIANT:=$(1)

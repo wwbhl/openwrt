@@ -19,7 +19,8 @@ include $(INCLUDE_DIR)/package.mk
 
 define Package/ChinaDNS/Default
   SECTION:=net
-  CATEGORY:=Network
+  CATEGORY:=wwbhl
+  SUBMENU:=2. Network Support
   TITLE:=ChinaDNS
 	URL:=https://github.com/clowwindy/ChinaDNS
 endef
