@@ -11,9 +11,9 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
 include $(INCLUDE_DIR)/package.mk
 
 define Package/xunlei
-  SECTION:=net
-  CATEGORY:=Network
-  SUBMENU:=File Transfer
+  SECTION:=luci
+  CATEGORY:=wwbhl
+  SUBMENU:=1. Luci Applications
   DEPENDS:=+libc
   TITLE:=xunlei
   PKGARCH:=all

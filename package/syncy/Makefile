@@ -11,9 +11,9 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
 include $(INCLUDE_DIR)/package.mk
 
 define Package/syncy
-  SECTION:=net
-  CATEGORY:=Network
-  SUBMENU:=File Transfer
+  SECTION:=luci
+  CATEGORY:=wwbhl
+  SUBMENU:=1. Luci Applications
   DEPENDS:=+python +python-curl +libcurl +libc +kmod-nls-utf8 +libopenssl
   TITLE:=syncy
   PKGARCH:=all
