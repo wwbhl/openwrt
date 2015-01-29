@@ -17,7 +17,7 @@ function index()
 		return
 	end
 
-	local page = entry({"admin", "services", "aria2"}, cbi("aria2"), _("Aria2 Settings"))
+	local page = entry({"admin", "wwbhl", "aria2"}, cbi("aria2"), _("Aria2 Settings"))
 	page.dependent = true
 
 end
