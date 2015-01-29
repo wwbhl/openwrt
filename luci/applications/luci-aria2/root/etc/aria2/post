@@ -1,0 +1,18 @@
+#!/bin/sh
+# RA-MOD
+# aria2 post-process script
+
+urldecode(){
+  echo -e "$(sed 's/+/ /g; s/%/\\x/g')"
+}
+
+getExtension(){
+	echo $(sed 's/.*\.//')
+}
+
+# fix URL encoded filename
+
+rawfile="$3"
+newfile="$(dirname "$rawfile")/$(basename "$rawfile" | urldecode)"
+
+[ "$rawfile" != "$newfile" ] && mv "$rawfile" "$newfile"
