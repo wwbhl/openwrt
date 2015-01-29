@@ -17,6 +17,12 @@ function index()
 		return
 	end
 
+	local page
+        page = node("admin", "wwbhl")
+        page.target = firstchild()
+        page.title = _("wwbhl")
+        page.order  = 65
+
 	local page = entry({"admin", "wwbhl", "aria2"}, cbi("aria2"), _("Aria2 Settings"))
 	page.dependent = true
 
