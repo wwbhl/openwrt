@@ -19,8 +19,7 @@ include $(INCLUDE_DIR)/package.mk
 
 define Package/ChinaDNS/Default
   SECTION:=net
-  CATEGORY:=wwbhl
-  SUBMENU:=2. Network Support
+  CATEGORY:=Network
   TITLE:=ChinaDNS
 	URL:=https://github.com/clowwindy/ChinaDNS
 endef
@@ -34,6 +33,7 @@ A DNS forwarder that ignores incorrect(you knew it) responses.
 endef
 
 define Package/ChinaDNS/conffiles
+/etc/config/chinadns
 /etc/chinadns_iplist.txt
 /etc/chinadns_chnroute.txt
 endef
@@ -42,6 +42,8 @@ define Package/ChinaDNS/install
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/iplist.txt $(1)/etc/chinadns_iplist.txt
 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/chnroute.txt $(1)/etc/chinadns_chnroute.txt
+        $(INSTALL_DIR) $(1)/etc/config
+        $(INSTALL_DATA) ./files/chinadns.config $(1)/etc/config/chinadns
 	$(INSTALL_BIN) ./files/chinadns.init $(1)/etc/init.d/chinadns
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/chinadns $(1)/usr/bin
