@@ -1,114 +1,70 @@
 #!/bin/sh /etc/rc.common
+# Copyright (C) 2014 nanpuyue <nanpuyue@gmail.com>
 
 START=99
+SERVICE_WRITE_PID=1
+SERVICE_DAEMONIZE=1
+
+append_params() {
+	local p; local v; local s="$1"; shift
+	for p in $*; do
+		config_get v "$s" "$p"
+		[ -n "$v" ] && (
+			p=$(echo "$p" | sed -e 's|_|-|g');
+			echo "$p=$v" >> $config_file
+			)
+	done
+}
+
+section_enabled() {
+	local result
+	config_get_bool result "$1" 'enabled' 0
+	[ $result -eq 1 ]
+}
+
+option_disabled() {
+	local result
+	config_get_bool result "$1" "$2" 1
+	[ $result -eq 0 ]
+}
+
+start_instance() {
+	local s="$1"
+	local user
+
+	section_enabled "$s" || return 1
+
+	config_get config_dir "$s" 'config_dir' '/var/etc/aria2'
+	config_get user "$s" 'user'
+
+	config_file="$config_dir/aria2.conf"
+	session_file="$config_dir/aria2.session"
+	dht_file="$config_dir/dht.dat"
+	[ -d "$config_dir" ] || {
+		mkdir -m 0755 -p "$config_dir"
+		touch "$config_file"
+		[ -z "$user" ] || chown -R $user $config_dir
+	}
+	touch "$session_file"
+
+	echo -e "enable-rpc=true\nrpc-allow-origin-all=true\nrpc-listen-all=true\nquiet=true" > $config_file
+	echo -e "continue=true\ninput-file=$session_file\nsave-session=$session_file" >> $config_file
+	option_disabled "$s" 'enable_dht' || echo "dht-file-path=$dht_file" >> $config_file
+
+	append_params "$s" \
+		file_allocation bt_enable_lpd enable_dht rpc_user rpc_passwd rpc_listen_port dir bt_tracker disk_cache \
+		max_overall_download_limit max_overall_upload_limit max_download_limit max_upload_limit max_concurrent_downloads \
+		max_connection_per_server min_split_size split save_session_interval follow_torrent listen_port bt_max_peers
+
+	SERVICE_UID="$user" \
+	service_start /usr/bin/aria2c --conf-path="$config_file"
+}
 
 start() {
-	
-	ulimit -n 4096
-
-	config_load "aria2"	
-	config_get enabled config enabled 0
-
-	[ "$enabled" = 0 ] && return 0
-
-	config_get device config device
-
-	[ -z "$device" ] && exit 1
-
-	mountpoint="`mount | grep "$device" | awk '{print $3}'`"
-
-	[ -z "$mountpoint" ] && exit 1
-
-	config_get download_folder config download_folder Downloads
-	config_get diskcache config diskcache '1M'
-	config_get download_limit config download_limit 0
-	config_get upload_limit config upload_limit 0
-	config_get btmaxpeers config btmaxpeers 25
-	config_get maxjobs config maxjobs 5
-	config_get maxthread config maxthread 5
-	config_get tcp_port config tcp_port 51413
-	config_get udp_port config udp_port 51413
-	config_get seedtime config seedtime 525600
-	config_get rpc_token config rpc_token ""
-
-	aria2_conf_path="$mountpoint/.aria2"
-	aria2_downloadlist="$aria2_conf_path/aria2file.txt"
-	aria2_DHT="$aria2_conf_path/dht.dat"
-	aria2_downloadfolder="$mountpoint/$download_folder"
-
-	case "`mount | grep $device | cut -d' ' -f5`" in
-		#Only for fallocate patched uClibc
-		#'ext4')fileallocation="falloc";;
-		*fat*)fileallocation="none";;
-		*)fileallocation="trunc";;
-	esac
-
-	[ ! -d "$aria2_conf_path" ] && mkdir -p "$aria2_conf_path"
-	[ ! -f "$aria2_downloadlist" ] && touch "$aria2_downloadlist"
-	[ ! -f "$aria2_DHT" ] && touch "$aria2_DHT"
-
-	aria2_configfile="/etc/aria2/aria2.conf"
-	[ ! -f "$aria2_configfile" ] && {
-		aria2_configfile="/etc/aria2/aria2.conf"
-		cat > "$aria2_configfile" << EOF
-# General Setting
-continue
-peer-id-prefix=-TR2760-
-user-agent=Transmission/2.76 (13775)
-event-poll=epoll
-on-download-complete=/etc/aria2/post
-on-bt-download-complete=/etc/aria2/post
-save-session-interval=60
-force-save
-
-# Connection Setting
-disable-ipv6
-check-certificate=false
-min-split-size=1M
-
-# BitTorrent Setting
-enable-dht6=false
-bt-seed-unverified
-bt-save-metadata
-bt-hash-check-seed
-bt-remove-unselected-file
-bt-request-peer-speed-limit=100K
-bt-stop-timeout=1800
-seed-ratio=0.0
-
-# RPC
-rpc-save-upload-metadata
-EOF
-	}
-
-	cmd="aria2c -c -D \
-	--conf-path="$aria2_configfile" \
-	--dir="$aria2_downloadfolder" \
-	--enable-rpc \
-	--rpc-listen-all \
-	--rpc-allow-origin-all \
-	--listen-port=$tcp_port \
-	--dht-listen-port=$udp_port \
-	--file-allocation=$fileallocation \
-	--input-file="$aria2_downloadlist" \
-	--save-session="$aria2_downloadlist" \
-	--dht-file-path="$aria2_DHT" \
-	--seed-time=$seedtime \
-	--disk-cache=$diskcache \
-	--max-overall-download-limit=$download_limit \
-	--max-overall-upload-limit=$upload_limit \
-	--bt-max-peers=$btmaxpeers \
-	--split=$maxthread \
-	--max-connection-per-server=$maxthread \
-	--max-concurrent-downloads=$maxjobs"
-
-	[ -n "$rpc_token" ] && cmd="$cmd --rpc-secret=$rpc_token"
-
-	eval "$cmd"
+	config_load 'aria2'
+	config_foreach start_instance 'aria2'
 }
 
 stop() {
-	# must interrupt it to save session
-	killall -2 aria2c
-	sleep 3
+	service_stop /usr/bin/aria2c
 }

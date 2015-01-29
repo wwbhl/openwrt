@@ -7,14 +7,13 @@ PKG_RELEASE:=1
 
 PKG_BUILD_PARALLEL:=0
 
-PKG_VERSION:=$(shell $(LUCI_TOPDIR)/build/mkrevision.sh 2>/dev/null || echo unknown)
+PKG_VERSION:=2015-01-29
 
 PKG_BUILD_DEPENDS:=$(if $(STAGING_DIR_ROOT),lua/host)
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
 PKG_INSTALL_DIR:=$(PKG_BUILD_DIR)/ipkg-install
-PKG_USE_MIPS16:=0
 
-LUA_TARGET:=compile
+LUA_TARGET:=source
 LUCI_CFLAGS:=
 LUCI_BUILD_PACKAGES:=
 LUCI_SELECTED_MODULES:=
@@ -22,6 +21,7 @@ LUCI_SELECTED_MODULES:=
 ifeq ($(BOARD),brcm-2.4)
   MAKE_FLAGS += CRAP="1"
 endif
+
 
 ### Templates ###
 define Package/luci/install/template
@@ -34,10 +34,11 @@ define application
   define Package/luci-app-$(1)
     SECTION:=luci
     CATEGORY:=wwbhl
-    TITLE:=LuCI - wwbhl
-    URL:=https://github.com/ravageralpha/my_openwrt_mod/
+    TITLE:=LuCI - Lua Configuration Interface
+    URL:=https://github.com/wwbhl/openwrt/
     MAINTAINER:=wwbhl <8489216@qq.com>
-    SUBMENU:=1. LuCI Applications
+    PKGARCH:=all
+    SUBMENU:=1. Luci Applications
     TITLE:=$(if $(2),$(2),LuCI $(1) application)
 	DEPENDS:=$(3)
   endef
@@ -53,11 +54,13 @@ define application
   LUCI_BUILD_PACKAGES += luci-app-$(1)
 endef
 
-$(eval $(call application,aria2,LuCI Support for aria2,\
+define Package/luci-app-aria2/conffiles
+/etc/config/aria2
+endef
+
+$(eval $(call application,aria2,LuCI Support for Aria2,\
 	+PACKAGE_luci-app-aria2:aria2 \
-	+PACKAGE_luci-app-aria2:curl \
-	+PACKAGE_luci-app-aria2:wget \
-	+PACKAGE_luci-app-aria2:openssl-util))
+	+PACKAGE_luci-app-aria2:yaaw))
 
 
 ### Compile ###
@@ -78,7 +81,6 @@ define Build/Prepare
 		--exclude='boa-0*' --exclude='*.o' --exclude='*.so' \
 		--exclude=dist | \
 			tar x -C $(PKG_BUILD_DIR)/
-	$(call Build/Prepare/Default)
 endef
 
 define Build/Configure

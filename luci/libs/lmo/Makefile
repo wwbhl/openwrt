@@ -41,5 +41,4 @@ host-install: host-compile
 	cp src/$(TPL_PO2LMO) ../../build/$(TPL_PO2LMO)
 
 host-clean:
-	rm -f src/$(TPL_PO2LMO)
 	rm -f ../../build/$(TPL_PO2LMO)
