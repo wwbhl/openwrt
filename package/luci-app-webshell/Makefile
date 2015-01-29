@@ -10,7 +10,7 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/webshell
+define Package/luci-app-webshell
   SECTION:=luci
   CATEGORY:=wwbhl
   SUBMENU:=1. Luci Applications
