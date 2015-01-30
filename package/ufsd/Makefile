@@ -8,7 +8,7 @@
 include $(TOPDIR)/rules.mk
 include $(INCLUDE_DIR)/kernel.mk
 
-PKG_NAME:=ufsd-mipseb-3.14
+PKG_NAME:=ufsd-mipseb
 
 PKG_VERSION:=1
 PKG_RELEASE:=1
@@ -19,7 +19,7 @@ PKG_UNPACK=mkdir -p $(PKG_BUILD_DIR); $(CP) ./obj/* $(PKG_BUILD_DIR)/
 include $(INCLUDE_DIR)/package.mk
 
 
-define KernelPackage/ufsd-mipseb-3.14
+define KernelPackage/ufsd-mipseb
   SUBMENU:=Filesystems
   TITLE:=Paragon ufsd for mipseb kernel-3.14
   DEPENDS:=+kmod-nls-base +kmod-nls-utf8
@@ -27,14 +27,14 @@ define KernelPackage/ufsd-mipseb-3.14
   AUTOLOAD:=$(call AutoLoad,30,ufsd)
 endef
 
-define KernelPackage/ufsd-mipseb-3.14/description
+define KernelPackage/ufsd-mipseb/description
 Paragon ufsd is a fs driverof ntfs
 endef
 
 define Build/Compile
 endef
 
-define KernelPackage/ufsd-mipseb-3.14/install
+define KernelPackage/ufsd-mipseb/install
 endef
 
-$(eval $(call KernelPackage,ufsd-mipseb-3.14))
+$(eval $(call KernelPackage,ufsd-mipseb))
