@@ -1,37 +1,56 @@
 #!/bin/sh /etc/rc.common
-# chinadns init script
 
 START=90
-STOP=15
-EXTRA_COMMANDS="restart"
-PIDFILE='/tmp/chinadns.pid'
 
-start()
-{
-    if [ -f $PIDFILE ]
-        then
-            echo "already started: $PIDFILE exists"
-            exit 1
-    fi
-    chinadns \
-        -l /etc/chinadns_iplist.txt \
-        -c /etc/chinadns_chnroute.txt \
-        -p 5353 \
-        1> /tmp/log/chinadns.log \
-        2> /tmp/log/chinadns.err.log &
-    echo $! > $PIDFILE
-    iptables -t nat -A PREROUTING -p udp --dport 53 -j REDIRECT --to-ports 5353
+SERVICE_USE_PID=1
+SERVICE_WRITE_PID=1
+SERVICE_DAEMONIZE=1
+
+xappend() {
+	parms="$parms $1"
 }
 
-stop()
-{
-    iptables -t nat -D PREROUTING -p udp --dport 53 -j REDIRECT --to-ports 5353
-    kill `cat $PIDFILE`
-    rm $PIDFILE
+append_bool() {
+	local section="$1"
+	local option="$2"
+	local value="$3"
+	local _loctmp
+	config_get_bool _loctmp "$section" "$option"
+	[ "$_loctmp" = 1 ] || return 0
+	xappend "$value"
 }
 
-restart()
-{
-    stop
-    start
+append_parm() {
+	local section="$1"
+	local option="$2"
+	local switch="$3"
+	local _loctmp
+	config_get _loctmp "$section" "$option"
+	[ -z "$_loctmp" ] && return 0
+	xappend "$switch $_loctmp"
+}
+
+start_chinadns() {
+	local enable
+	config_get_bool enable $1 enable
+	[ "$enable" = 1 ] || return 0
+	append_parm $1 port "-p"
+	append_parm $1 server "-s"
+	append_parm $1 iplist "-l"
+	append_parm $1 chnroute "-c"
+	append_bool $1 compression "-m"
+	append_parm $1 result_delay "-y"
+	append_bool $1 bidirectional "-d"
+	service_start /usr/bin/chinadns \
+		$parms
+	return $?
+}
+
+start() {
+	config_load chinadns
+	config_foreach start_chinadns chinadns
+}
+
+stop() {
+	service_stop /usr/bin/chinadns
 }
