@@ -23,7 +23,7 @@ include $(INCLUDE_DIR)/package.mk
 define Package/webui-aria2
   SECTION:=net
   CATEGORY:=wwbhl
-  SUBMENU:=4. Download Manager
+  SUBMENU:=3. Download Manager
   DEPENDS:=+aria2
   TITLE:=An interface to interact with aria2
   URL:=https://github.com/ziahamza/webui-aria2

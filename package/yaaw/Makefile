@@ -23,7 +23,7 @@ include $(INCLUDE_DIR)/package.mk
 define Package/yaaw
   SECTION:=net
   CATEGORY:=wwbhl
-  SUBMENU:=4. Download Manager
+  SUBMENU:=3. Download Manager
   DEPENDS:=+aria2
   TITLE:=Yet another aria2 web frontend
   URL:=https://github.com/binux/yaaw

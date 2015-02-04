@@ -13,7 +13,7 @@ include $(INCLUDE_DIR)/package.mk
 define Package/luci-app-syncy
   SECTION:=luci
   CATEGORY:=wwbhl
-  SUBMENU:=3. Download Applications
+  SUBMENU:=1. Luci Applications
   DEPENDS:=+python +python-curl +libcurl +libc +kmod-nls-utf8 +libopenssl
   TITLE:=syncy
   PKGARCH:=all
