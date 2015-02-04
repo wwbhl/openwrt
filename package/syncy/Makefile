@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 
-PKG_NAME:=syncy
+PKG_NAME:=luci-app-syncy
 PKG_VERSION:=2.1.1
 PKG_RELEASE:=1
 PKG_MAINTAINER:=wwbhl <8489216@qq.com>
@@ -10,7 +10,7 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/syncy
+define Package/luci-app-syncy
   SECTION:=luci
   CATEGORY:=wwbhl
   SUBMENU:=3. Download Applications
@@ -20,7 +20,7 @@ define Package/syncy
 endef
 
 
-define Package/syncy/description
+define Package/luci-app-syncy/description
 LuCI Support for syncy
 endef
 define Build/Prepare
@@ -32,25 +32,25 @@ endef
 define Build/Compile
 endef
 
-define Package/syncy/conffiles
+define Package/luci-app-syncy/conffiles
 /etc/config/syncy
 endef
 
-define Package/syncy/postinst
+define Package/luci-app-syncy/postinst
 #!/bin/sh
 [ -f /etc/config/syncy.bak.syy ] && mv /etc/config/syncy.bak.syy /etc/config/syncy
 exit 0
 endef
 
-define Package/syncy/preinst
+define Package/luci-app-syncy/preinst
 #!/bin/sh
 [ -f /etc/config/syncy ] && cp /etc/config/syncy /etc/config/syncy.bak.syy
 exit 0
 endef
 
-Package/syncy/prerm = $(Package/syncy/preinst)
+Package/luci-app-syncy/prerm = $(Package/luci-app-syncy/preinst)
 
-define Package/syncy/install
+define Package/luci-app-syncy/install
 	$(INSTALL_DIR) $(1)/etc/config
 	$(INSTALL_CONF) ./files/etc/config/syncy $(1)/etc/config/syncy
 	$(INSTALL_DIR) $(1)/usr/bin
@@ -63,4 +63,4 @@ define Package/syncy/install
 	$(INSTALL_DATA) ./files/usr/lib/lua/luci/model/cbi/syncy.lua $(1)/usr/lib/lua/luci/model/cbi/syncy.lua
 endef
 
-$(eval $(call BuildPackage,syncy))
+$(eval $(call BuildPackage,luci-app-syncy))

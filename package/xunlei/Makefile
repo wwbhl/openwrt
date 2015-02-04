@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 
-PKG_NAME:=xunlei
+PKG_NAME:=luci-app-xunlei
 PKG_VERSION:=0.11
 PKG_RELEASE:=14
 PKG_MAINTAINER:=wwbhl <8489216@qq.com>
@@ -10,7 +10,7 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/xunlei
+define Package/luci-app-xunlei
   SECTION:=luci
   CATEGORY:=wwbhl
   SUBMENU:=3. Download Applications
@@ -20,7 +20,7 @@ define Package/xunlei
 endef
 
 
-define Package/xunlei/description
+define Package/luci-app-xunlei/description
 LuCI Support for xunlei
 endef
 define Build/Prepare
@@ -36,7 +36,7 @@ define Package/xunlei/conffiles
 /etc/config/xunlei
 endef
 
-define Package/xunlei/postinst
+define Package/luci-app-xunlei/postinst
 #!/bin/sh 
 [ -n "${IPKG_INSTROOT}" ] || {
 	( . /etc/uci-defaults/luci-xunlei ) && rm -f /etc/uci-defaults/luci-xunlei
@@ -47,7 +47,7 @@ define Package/xunlei/postinst
 endef
 
 
-define Package/xunlei/install
+define Package/luci-app-xunlei/install
 	$(INSTALL_DIR) $(1)/etc/config
 	$(INSTALL_CONF) ./files/etc/config/xunlei $(1)/etc/config/xunlei
 	$(INSTALL_DIR) $(1)/etc/xware
@@ -64,5 +64,5 @@ define Package/xunlei/install
 	$(INSTALL_DATA) ./files/usr/lib/lua/luci/model/cbi/xunlei.lua $(1)/usr/lib/lua/luci/model/cbi/xunlei.lua
 endef
 
-$(eval $(call BuildPackage,xunlei))
+$(eval $(call BuildPackage,luci-app-xunlei))
 
