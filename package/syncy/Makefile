@@ -2,8 +2,8 @@ include $(TOPDIR)/rules.mk
 
 
 PKG_NAME:=luci-app-syncy
-PKG_VERSION:=2.1.1
-PKG_RELEASE:=1
+PKG_VERSION:=2.1.2
+PKG_RELEASE:=2
 PKG_MAINTAINER:=wwbhl <8489216@qq.com>
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
