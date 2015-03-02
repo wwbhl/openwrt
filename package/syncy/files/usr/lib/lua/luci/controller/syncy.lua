@@ -27,7 +27,7 @@ function index()
 
 	local page
 	page = node("admin", "wwbhl")
-	page.target = firstchile()
+	page.target = firstchild()
 	page.tatle = _("wwbhl")
 	page.order = 65
 	page = entry({"admin", "services", "syncy"}, cbi("syncy"), _("百度云同步"))
