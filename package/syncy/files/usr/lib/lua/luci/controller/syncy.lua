@@ -30,6 +30,6 @@ function index()
 	page.target = firstchild()
 	page.tatle = _("wwbhl")
 	page.order = 65
-	page = entry({"admin", "services", "syncy"}, cbi("syncy"), _("百度云同步"))
+	page = entry({"admin", “wwbhl”, "syncy"}, cbi("syncy"), _("百度云同步"))
 	page.dependent = true
 end
