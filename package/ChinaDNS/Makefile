@@ -8,15 +8,15 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ChinaDNS
-PKG_VERSION:=1.3.0
+PKG_VERSION:=1.3.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://github.com/aa65535/openwrt-chinadns/releases/download/v$(PKG_VERSION)
-PKG_MD5SUM:=82425d75e87a6af1f9a1c7e6ab869af9
+PKG_MD5SUM:=a68bd997f3d69291605f69e93c1514c2
 
-PKG_LICENSE:=MIT
-PKG_LICENSE_FILES:=LICENSE
+PKG_LICENSE:=GPLv3
+PKG_LICENSE_FILES:=COPYING
 PKG_MAINTAINER:=clowwindy <clowwindy42@gmail.com>
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)/$(PKG_NAME)-$(PKG_VERSION)
@@ -30,8 +30,7 @@ include $(INCLUDE_DIR)/package.mk
 
 define Package/ChinaDNS
 	SECTION:=net
-	CATEGORY:=wwbhl
-        SUBMENU:=2. Network Support
+	CATEGORY:=Network
 	TITLE:=ChinaDNS
 	URL:=https://github.com/clowwindy/ChinaDNS
 endef

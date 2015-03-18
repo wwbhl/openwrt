@@ -8,12 +8,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=shadowsocks-libev
-PKG_VERSION:=2.1.2
-PKG_RELEASE:=2
+PKG_VERSION:=2.1.4
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://github.com/shadowsocks/openwrt-shadowsocks/releases/download/v$(PKG_VERSION)
-PKG_MD5SUM:=6c379450c6c1f565a650d37f5fa213ad
+PKG_MD5SUM:=f772a750580243cfcac4649d7b9171b1
 
 PKG_LICENSE:=GPLv3
 PKG_LICENSE_FILES:=LICENSE
@@ -30,10 +30,9 @@ include $(INCLUDE_DIR)/package.mk
 
 define Package/shadowsocks-libev/Default
 	SECTION:=net
-	CATEGORY:=wwbhl
-        SUBMENU:=2. Network Support
+	CATEGORY:=Network
 	TITLE:=Lightweight Secured Socks5 Proxy $(2)
-	URL:=https://github.com/madeye/shadowsocks-libev
+	URL:=https://github.com/shadowsocks/shadowsocks-libev
 	VARIANT:=$(1)
 	DEPENDS:=$(3)
 endef
@@ -76,7 +75,6 @@ if [ -z "$${IPKG_INSTROOT}" ]; then
 		commit firewall
 EOF
 fi
-rm -f /etc/hotplug.d/iface/30-shadowsocks
 exit 0
 endef
 
